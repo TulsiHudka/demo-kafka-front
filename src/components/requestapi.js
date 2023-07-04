@@ -7,7 +7,7 @@ const RequestApi = () => {
     const user_id = "a43c9b0d-7380-41e2-847a-d11eaa5e7325";
     useEffect(() => {
 
-        const socket = io('http://localhost:8000');
+        const socket = io('http://localhost:5000');
 
         socket.on('connect', () => {
             console.log('WebSocket connection established');
@@ -43,11 +43,7 @@ const RequestApi = () => {
     const handleButtonClick = async () => {
         try {
             console.log(user_id)
-            const response = await axios.get('http://localhost:8000/api/request', {
-                headers: {
-                    user_id
-                }
-            });
+            const response = await axios.post('http://192.168.2.31:3000/nodeKafka/api/request', { user_id });
             // console.log("hello");
             console.log('Node API GET request successful');
             // Process the response data here
