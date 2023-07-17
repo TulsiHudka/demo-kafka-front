@@ -17,19 +17,3 @@ const Test = () => {
 };
 
 export default Test;
-
-// import { useSelector } from 'react-redux';
-// import React, { useEffect } from 'react';
-
-// const Test = () => {
-//     const dummyData = useSelector((state) => state.socket.dummy);
-//     useEffect(() => {
-//         console.log(dummyData, "test data");
-//     }, [dummyData]);
-//     return (
-//         <div>
-//             <h5>notification: {dummyData}</h5>
-//         </div>
-//     )
-// }
-// export default Test;

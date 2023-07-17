@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Badge from "@mui/material/Badge";
-// import { makeStyles } from '@mui/styles';
-import { makeStyles } from "@material-ui/core/styles";
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import EmailIcon from '@mui/icons-material/Email';
-// import { makeStyles } from '@material-ui/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-  badge: {
-    fontSize: 30
-  }
-}));
 
 function Notifications() {
-  const classes = useStyles();
-
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -36,7 +23,6 @@ function Notifications() {
       console.error("Error fetching notifications:", error);
     }
   };
-
   const getUnreadCount = (notifications) => {
     return notifications.reduce((count, notification) => {
       return notification.status === "unread" ? count + 1 : count;
@@ -44,6 +30,7 @@ function Notifications() {
   };
 
   const markAsRead = async (notificationId) => {
+    console.log(notificationId);
     try {
       await axios.patch(
         `${process.env.REACT_APP_BASE_URL}/api/notifications/${notificationId}`,
@@ -66,26 +53,29 @@ function Notifications() {
   };
 
   return (
-    <div>
-      <Badge badgeContent={6} color="primary" fontSize="small" classes={{ badge: classes.badge }}>
-        {/* Your notification icon component */}
-        <p>notification:</p>  <NotificationsActiveIcon fontSize="medium" />
-      </Badge>
+    <>
+      <br />
       <div>
-        {/* Render your list of notifications */}
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            style={{
-              fontWeight: notification.status === "unread" ? "bold" : "normal",
-            }}
-            onClick={() => markAsRead(notification.id)}
-          >
-            {/* {notification.message} */}
-          </div>
-        ))}
+        <Badge badgeContent={6} color="primary" >
+          {/* Your notification icon component */}
+          <NotificationsActiveIcon />
+        </Badge>
+        <div>
+          {/* Render your list of notifications */}
+          {notifications.map((notification) => (
+            <div
+              key={notification.id}
+              style={{
+                fontWeight: notification.status === "unread" ? "bold" : "normal",
+              }}
+              onClick={() => markAsRead(notification.id)}
+            >
+              {/* {notification.message} */}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
