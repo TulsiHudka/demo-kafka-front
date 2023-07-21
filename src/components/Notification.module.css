@@ -1,0 +1,10 @@
+.container{
+    width: 200px;
+    height: 120px;
+    background-color: #f0f0f0;
+    box-shadow: 5px 5px 10px #888888;
+    overflow: auto;
+}
+.message{
+    font-size: 15px;
+}
