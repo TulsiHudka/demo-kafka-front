@@ -11,7 +11,7 @@ const Test = () => {
 
   return (
     <div>
-      <h5>Notification: {dummyData}</h5>
+      <h2>Notification: {dummyData}</h2>
     </div>
   );
 };

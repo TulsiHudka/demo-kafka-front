@@ -19,6 +19,7 @@ export const fetchNotifications = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/nodeKafka/api/notifications`
     );
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching notifications:", error);
