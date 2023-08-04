@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { responseReceived } from "../store/socketSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DocumentUpload = () => {
-  const user_id = "eba2ac0d-b19d-4c0f-b2d9-03974917ea88";
+  const user_id = "ac63c0df-f900-4b89-a383-a4cfbe5fca7b ";
+  const dispatch = useDispatch();
+  const [response, setReponse] = useState("");
   const [file, setFile] = useState(null);
+  const socketData = useSelector((state) => state.socket.data);
   const config = {
     headers: {
       "content-type": "multipart/form-data", // Required when using FormData
       user_id,
     },
   };
+
+  useEffect(() => {
+    if (socketData.message) {
+      setReponse(socketData.message);
+      console.log(socketData.message, "data received");
+      toast.success("Process Completed");
+      dispatch(responseReceived(""));
+    }
+  }, [socketData]);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -28,9 +44,11 @@ const DocumentUpload = () => {
       )
       .then((response) => {
         console.log(response.data);
+        toast.success("Process started");
       })
       .catch((error) => {
         console.error(error);
+        toast.error(JSON.stringify(error.message));
       });
   };
 
@@ -42,6 +60,8 @@ const DocumentUpload = () => {
         <h2>Upload:</h2>
         <button type="submit">Upload Document</button>
       </form>
+      <h3>Response: {response}</h3>
+      <ToastContainer />
     </div>
   );
 };
@@ -68,17 +88,17 @@ export default DocumentUpload;
 //     }
 //   }, [socketData]);
 
-//   // const handleButtonClick = async () => {
-//   //   try {
-//   //     const response = await makeRequest(user_id);
-//   //     // Process the response data here
-//   //     console.log(response);
-//   //     toast.success("Process started");
-//   //   } catch (error) {
-//   //     console.log(error);
-//   //     toast.error(JSON.stringify(error.message));
-//   //   }
-//   // };
+//   const handleButtonClick = async () => {
+//     try {
+//       const response = await makeRequest(user_id);
+//       // Process the response data here
+//       console.log(response);
+//       toast.success("Process started");
+//     } catch (error) {
+//       console.log(error);
+//       toast.error(JSON.stringify(error.message));
+//     }
+//   };
 
 //   const fileInputRef = useRef(null);
 
